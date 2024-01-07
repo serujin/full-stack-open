@@ -19,7 +19,10 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(anecdotes.map(() => 0));
+
   const currentAnecdote = anecdotes[selected];
+  const currentVotes = votes[selected];
 
   const getRandomAnecdote = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length);
@@ -28,9 +31,17 @@ const App = () => {
       : getRandomAnecdote(anecdotes, selected);
   };
 
+  const updateVote = () => {
+    const copy = [...votes];
+    copy[selected] += 1;
+    setVotes(copy);
+  };
+
   return (
     <div>
       <Text text={currentAnecdote} />
+      <Text text={`Has ${currentVotes} votes`} />
+      <Button handleClick={() => updateVote()} text="Vote" />
       <Button
         handleClick={() => setSelected(getRandomAnecdote())}
         text={"Next anecdote"}
