@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const Title = ({ text }) => <h1>{text}</h1>;
+const Text = ({ text }) => <p>{text}</p>;
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
@@ -20,15 +21,23 @@ const Statistics = ({ goodData, neutralData, badData }) => {
   return (
     <>
       <Title text={"Statistics"} />
-      <Display text={goodData.text} value={goodData.value} />
-      <Display text={neutralData.text} value={neutralData.value} />
-      <Display text={badData.text} value={badData.value} />
-      <Display text={"All"} value={allFeedback} />
-      <Display text={"Average"} value={average ? average : 0} />
-      <Display
-        text={"Positive"}
-        value={positivePercentage ? positivePercentageText : zeroPercentageText}
-      />
+      {allFeedback > 0 ? (
+        <>
+          <Display text={goodData.text} value={goodData.value} />
+          <Display text={neutralData.text} value={neutralData.value} />
+          <Display text={badData.text} value={badData.value} />
+          <Display text={"All"} value={allFeedback} />
+          <Display text={"Average"} value={average ? average : 0} />
+          <Display
+            text={"Positive"}
+            value={
+              positivePercentage ? positivePercentageText : zeroPercentageText
+            }
+          />
+        </>
+      ) : (
+        <Text text={"No feedback given"} />
+      )}
     </>
   );
 };
