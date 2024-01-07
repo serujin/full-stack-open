@@ -1,73 +1,39 @@
 import { useState } from "react";
 
-const Title = ({ text }) => <h1>{text}</h1>;
 const Text = ({ text }) => <p>{text}</p>;
+
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
-const StatisticLine = ({ text, value }) => (
-  <tr>
-    <td>{text}</td>
-    <td>{value}</td>
-  </tr>
-);
-
-const Statistics = ({ goodData, neutralData, badData }) => {
-  const allFeedback = goodData.value + neutralData.value + badData.value;
-  const average = goodData.value / allFeedback - badData.value / allFeedback;
-  const positivePercentage = (goodData.value / allFeedback) * 100;
-  const positivePercentageText = `${positivePercentage} %`;
-  const zeroPercentageText = "0 %";
-
-  return (
-    <>
-      <Title text={"Statistics"} />
-      {allFeedback > 0 ? (
-        <table>
-          <tbody>
-            <StatisticLine text={goodData.text} value={goodData.value} />
-            <StatisticLine text={neutralData.text} value={neutralData.value} />
-            <StatisticLine text={badData.text} value={badData.value} />
-            <StatisticLine text={"All"} value={allFeedback} />
-            <StatisticLine text={"Average"} value={average ? average : 0} />
-            <StatisticLine
-              text={"Positive"}
-              value={
-                positivePercentage ? positivePercentageText : zeroPercentageText
-              }
-            />
-          </tbody>
-        </table>
-      ) : (
-        <Text text={"No feedback given"} />
-      )}
-    </>
-  );
-};
 
 const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
+  const anecdotes = [
+    "If it hurts, do it more often.",
+    "Adding manpower to a late software project makes it later!",
+    "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+    "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+    "Premature optimization is the root of all evil.",
+    "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+    "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.",
+    "The only way to go fast, is to go well.",
+  ];
 
-  const goodData = { text: "Good", value: good };
-  const neutralData = { text: "Neutral", value: neutral };
-  const badData = { text: "Bad", value: bad };
+  const [selected, setSelected] = useState(0);
+  const currentAnecdote = anecdotes[selected];
+
+  const getRandomAnecdote = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length);
+    return randomIndex !== selected
+      ? randomIndex
+      : getRandomAnecdote(anecdotes, selected);
+  };
 
   return (
     <div>
-      <Title text={"Give feedback"} />
-      <Button handleClick={() => setGood(good + 1)} text={goodData.text} />
+      <Text text={currentAnecdote} />
       <Button
-        handleClick={() => setNeutral(neutral + 1)}
-        text={neutralData.text}
-      />
-      <Button handleClick={() => setBad(bad + 1)} text={badData.text} />
-      <Statistics
-        goodData={goodData}
-        neutralData={neutralData}
-        badData={badData}
+        handleClick={() => setSelected(getRandomAnecdote())}
+        text={"Next anecdote"}
       />
     </div>
   );
