@@ -6,9 +6,10 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 const StatisticLine = ({ text, value }) => (
-  <p>
-    {text} {value}
-  </p>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 );
 
 const Statistics = ({ goodData, neutralData, badData }) => {
@@ -22,19 +23,21 @@ const Statistics = ({ goodData, neutralData, badData }) => {
     <>
       <Title text={"Statistics"} />
       {allFeedback > 0 ? (
-        <>
-          <StatisticLine text={goodData.text} value={goodData.value} />
-          <StatisticLine text={neutralData.text} value={neutralData.value} />
-          <StatisticLine text={badData.text} value={badData.value} />
-          <StatisticLine text={"All"} value={allFeedback} />
-          <StatisticLine text={"Average"} value={average ? average : 0} />
-          <StatisticLine
-            text={"Positive"}
-            value={
-              positivePercentage ? positivePercentageText : zeroPercentageText
-            }
-          />
-        </>
+        <table>
+          <tbody>
+            <StatisticLine text={goodData.text} value={goodData.value} />
+            <StatisticLine text={neutralData.text} value={neutralData.value} />
+            <StatisticLine text={badData.text} value={badData.value} />
+            <StatisticLine text={"All"} value={allFeedback} />
+            <StatisticLine text={"Average"} value={average ? average : 0} />
+            <StatisticLine
+              text={"Positive"}
+              value={
+                positivePercentage ? positivePercentageText : zeroPercentageText
+              }
+            />
+          </tbody>
+        </table>
       ) : (
         <Text text={"No feedback given"} />
       )}
