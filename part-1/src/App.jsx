@@ -20,6 +20,12 @@ const App = () => {
   const neutralText = "Neutral";
   const badText = "Bad";
 
+  const allFeedback = good + neutral + bad;
+  const average = good / allFeedback - bad / allFeedback;
+  const positivePercentage = (good / allFeedback) * 100;
+  const positivePercentageText = `${positivePercentage} %`;
+  const zeroPercentageText = "0 %";
+
   return (
     <div>
       <Title text={"Give feedback"} />
@@ -30,6 +36,12 @@ const App = () => {
       <Display text={goodText} value={good} />
       <Display text={neutralText} value={neutral} />
       <Display text={badText} value={bad} />
+      <Display text={"All"} value={allFeedback} />
+      <Display text={"Average"} value={average ? average : 0} />
+      <Display
+        text={"Positive"}
+        value={positivePercentage ? positivePercentageText : zeroPercentageText}
+      />
     </div>
   );
 };
