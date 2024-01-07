@@ -5,7 +5,7 @@ const Text = ({ text }) => <p>{text}</p>;
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
-const Display = ({ text, value }) => (
+const StatisticLine = ({ text, value }) => (
   <p>
     {text} {value}
   </p>
@@ -23,12 +23,12 @@ const Statistics = ({ goodData, neutralData, badData }) => {
       <Title text={"Statistics"} />
       {allFeedback > 0 ? (
         <>
-          <Display text={goodData.text} value={goodData.value} />
-          <Display text={neutralData.text} value={neutralData.value} />
-          <Display text={badData.text} value={badData.value} />
-          <Display text={"All"} value={allFeedback} />
-          <Display text={"Average"} value={average ? average : 0} />
-          <Display
+          <StatisticLine text={goodData.text} value={goodData.value} />
+          <StatisticLine text={neutralData.text} value={neutralData.value} />
+          <StatisticLine text={badData.text} value={badData.value} />
+          <StatisticLine text={"All"} value={allFeedback} />
+          <StatisticLine text={"Average"} value={average ? average : 0} />
+          <StatisticLine
             text={"Positive"}
             value={
               positivePercentage ? positivePercentageText : zeroPercentageText
