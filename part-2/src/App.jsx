@@ -9,14 +9,25 @@ const CourseContent = ({ part }) => {
   );
 };
 
+const CourseTotal = ({ parts }) => {
+  const totalExercises = parts.reduce((acc, val) => (acc += val.exercises), 0);
+  return (
+    <p>
+      <b>Total of {totalExercises} exercises</b>
+    </p>
+  );
+};
+
 const Course = ({ course }) => {
   const { name, parts } = course;
+
   return (
     <>
       <Title text={name} />
       {parts.map(({ id, ...part }) => (
         <CourseContent key={id} part={part} />
       ))}
+      <CourseTotal parts={parts} />
     </>
   );
 };
