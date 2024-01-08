@@ -1,5 +1,36 @@
 import { useState } from "react";
 
+const Title = ({ text }) => <h2>{text}</h2>;
+
+const PhoneBookFilter = ({ text, handleFilterChange }) => (
+  <div>
+    {text} <input onChange={handleFilterChange} />
+  </div>
+);
+
+const PhoneBookProperty = ({ text, handleChange }) => (
+  <div>
+    {text}: <input onChange={handleChange} />
+  </div>
+);
+
+const PhoneBookForm = ({ formData }) => {
+  const { properties, submit } = formData;
+  const { text, handleSubmit } = submit;
+  return (
+    <form>
+      {properties.map(({ text, handleChange }) => (
+        <PhoneBookProperty key={text} text={text} handleChange={handleChange} />
+      ))}
+      <div>
+        <button type="submit" onClick={handleSubmit}>
+          {text}
+        </button>
+      </div>
+    </form>
+  );
+};
+
 const Person = ({ name, number }) => (
   <p>
     {name} {number}
@@ -17,24 +48,37 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value);
-  };
-
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value);
-  };
-
   const handleFilterChange = (event) => {
     setFilterName(event.target.value);
   };
 
   const handleNameSubmit = (event) => {
     event.preventDefault();
-    const newPerson = { name: newName, number: newNumber };
+    const newPerson = {
+      id: persons.length + 1,
+      name: newName,
+      number: newNumber,
+    };
     persons.some((person) => person.name === newName)
       ? alert(`${newName} is already added to the phonebook`)
       : setPersons(persons.concat(newPerson));
+  };
+
+  const formData = {
+    properties: [
+      {
+        text: "Name",
+        handleChange: (event) => setNewName(event.target.value),
+      },
+      {
+        text: "Number",
+        handleChange: (event) => setNewNumber(event.target.value),
+      },
+    ],
+    submit: {
+      text: "Add",
+      handleSubmit: handleNameSubmit,
+    },
   };
 
   const personsToShow = persons.filter((person) =>
@@ -42,30 +86,19 @@ const App = () => {
   );
 
   return (
-    <div>
-      <h2>Phonebook</h2>
-      <div>
-        filter shown with <input onChange={handleFilterChange} />
-      </div>
-      <h2>Add a new person</h2>
-      <form>
-        <div>
-          name: <input onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit" onClick={handleNameSubmit}>
-            add
-          </button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+    <>
+      <Title text={"Phonebook"} />
+      <PhoneBookFilter
+        text={"Filter shown with"}
+        handleFilterChange={handleFilterChange}
+      />
+      <Title text={"Add a new person"} />
+      <PhoneBookForm formData={formData} />
+      <Title text={"Numbers"} />
       {personsToShow.map(({ id, name, number }) => (
         <Person key={id} name={name} number={number} />
       ))}
-    </div>
+    </>
   );
 };
 
