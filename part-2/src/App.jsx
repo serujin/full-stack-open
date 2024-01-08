@@ -10,6 +10,7 @@ const CourseContent = ({ part }) => {
 };
 
 const CourseTotal = ({ parts }) => {
+  // Already done in exercise 2
   const totalExercises = parts.reduce((acc, val) => (acc += val.exercises), 0);
   return (
     <p>
