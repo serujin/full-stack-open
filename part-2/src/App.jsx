@@ -1,37 +1,4 @@
-const Title = ({ text }) => <h1>{text}</h1>;
-
-const CourseContent = ({ part }) => {
-  const { exercises, name } = part;
-  return (
-    <p>
-      {name} {exercises}
-    </p>
-  );
-};
-
-const CourseTotal = ({ parts }) => {
-  // Already done in exercise 2
-  const totalExercises = parts.reduce((acc, val) => (acc += val.exercises), 0);
-  return (
-    <p>
-      <b>Total of {totalExercises} exercises</b>
-    </p>
-  );
-};
-
-const Course = ({ course }) => {
-  const { name, parts } = course;
-
-  return (
-    <>
-      <Title text={name} />
-      {parts.map(({ id, ...part }) => (
-        <CourseContent key={id} part={part} />
-      ))}
-      <CourseTotal parts={parts} />
-    </>
-  );
-};
+import { Course } from "./components/course/Course";
 
 const App = () => {
   const courses = [
